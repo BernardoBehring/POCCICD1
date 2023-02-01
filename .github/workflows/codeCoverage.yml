@@ -1,0 +1,2 @@
+- name: Barecheck - Code Coverage
+  uses: barecheck/code-coverage-action@v1.0.0
