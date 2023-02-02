@@ -54,7 +54,7 @@ jobs:
           name: ref-lcov.info
           
       - name: LS
-        run: ls
+        run: echo ${{ secrets.BARECHECK_GITHUB_APP_TOKEN }}
           
       
       #  Compares two code coverage files and generates report as a comment
