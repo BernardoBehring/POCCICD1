@@ -5,16 +5,13 @@ on: [pull_request]
 jobs:
   base_branch_cov:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['6.0.x' ]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      - name: Setup .NET Core SDK 6.0.x
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: '6.0.x'
           
       - name: Install dependencies
         run: dotnet restore
@@ -26,7 +23,7 @@ jobs:
         run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../coverage/lcov.info
         
       - name: Upload code coverage for ref branch
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ref-lcov.info
           path: ./coverage/lcov.info
@@ -37,7 +34,7 @@ jobs:
     steps:
       - name: Download code coverage report from base branch
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ref-lcov.info
           
@@ -46,9 +43,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      
-      - name: LS
-        run: cat "${{steps.download.outputs.download-path}}/test"
 
       - name: Install dependencies
         run: dotnet restore
