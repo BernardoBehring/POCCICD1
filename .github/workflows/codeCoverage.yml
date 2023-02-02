@@ -8,6 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
       - name: Setup .NET Core SDK 6.0.x
         uses: actions/setup-dotnet@v3
         with:
