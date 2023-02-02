@@ -32,15 +32,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: base_branch_cov
     steps:
-      - name: Download code coverage report from base branch
-        id: download
-        uses: actions/download-artifact@v3
-        with:
-          name: ref-lcov.info
-          
-      - name: LS
-        run: ls
-          
       - uses: actions/checkout@v3
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
@@ -56,7 +47,16 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=../coverage/lcov.info
       
-
+      - name: Download code coverage report from base branch
+        id: download
+        uses: actions/download-artifact@v3
+        with:
+          name: ref-lcov.info
+          
+      - name: LS
+        run: ls
+          
+      
       #  Compares two code coverage files and generates report as a comment
       - name: Generate Code Coverage report
         id: code-coverage
