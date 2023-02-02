@@ -48,7 +48,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       
       - name: LS
-        run: ls ${{steps.download.outputs.download-path}}
+        run: echo "${{steps.download.outputs.download-path}}/test"
 
       - name: Install dependencies
         run: dotnet restore
