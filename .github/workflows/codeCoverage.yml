@@ -36,9 +36,11 @@ jobs:
     needs: base_branch_cov
     steps:
       - name: Download code coverage report from base branch
+        id: download
         uses: actions/download-artifact@v2
         with:
           name: ref-lcov.info
+          
       - uses: actions/checkout@v3
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
@@ -65,7 +67,7 @@ jobs:
         with:
           barecheck-github-app-token: ${{ secrets.BARECHECK_GITHUB_APP_TOKEN }}
           lcov-file: "./coverage/lcov.info"
-          base-lcov-file: "./lcov.info"
+          base-lcov-file: "{steps.download.outputs.download-path}/lcov.info"
           minimum-ratio: 0 # Fails Github action once code coverage is decreasing
           send-summary-comment: true
           show-annotations: "warning" # Possible options warning|error
